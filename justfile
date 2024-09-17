@@ -12,7 +12,7 @@ build NAME *CONFIG:
 build-no-lto: (build "no-lto")
 
 # build with LTO
-build-lto: (build "lto" "-DENABLE_LTO=YES" "-DCMAKE_CXX_COMPILER=clang++" "-DCMAKE_C_COMPILER=clang")
+build-lto: (build "lto" "-DENABLE_LTO=ON" "-DCMAKE_CXX_COMPILER=clang++" "-DCMAKE_C_COMPILER=clang")
 
 [private]
 run NAME ENTRY:

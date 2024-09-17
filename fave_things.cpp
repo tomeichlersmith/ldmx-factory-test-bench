@@ -15,7 +15,7 @@ int main(int argc, char* argv[]) {
   std::cout << "done loading library" << std::endl;
   std::string full_cpp_name{argv[2]};
   try {
-    auto entry_ptr{LibraryEntry::Factory::get().make(full_cpp_name)};
+    auto entry_ptr{LibraryEntry::factory().make(full_cpp_name)};
     std::cout << entry_ptr->name() << std::endl;
   } catch (const std::exception& e) {
     std::cerr << "ERROR: " << e.what() << std::endl;

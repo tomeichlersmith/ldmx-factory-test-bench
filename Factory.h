@@ -204,20 +204,6 @@ class Factory {
 
  public:
   /**
-   * get the factory instance
-   *
-   * Using a static function variable gaurantees that the factory
-   * is created as soon as it is needed and that it is deleted
-   * before the program completes.
-   *
-   * @returns reference to single Factory instance
-   */
-  static Factory& get() {
-    static Factory the_factory;
-    return the_factory;
-  }
-
-  /**
    * register a new object to be constructible
    *
    * We insert the new object into the library after
@@ -296,6 +282,12 @@ class Factory {
     std::cout << "~Factory(" << std::hex << this << ")" << std::endl;
   }
 
+  /// private constructor to prevent creation
+  Factory() {
+    std::cout << "Factory(" << std::hex << this << ")" << std::endl;
+  }
+
+
  private:
   /**
    * make a new DerivedType returning a PrototypePtr
@@ -320,11 +312,6 @@ class Factory {
   static PrototypePtr maker(PrototypeConstructorArgs... args) {
     return PrototypePtr(
         new DerivedType(std::forward<PrototypeConstructorArgs>(args)...));
-  }
-
-  /// private constructor to prevent creation
-  Factory() {
-    std::cout << "Factory(" << std::hex << this << ")" << std::endl;
   }
 
   /// library of possible objects to create

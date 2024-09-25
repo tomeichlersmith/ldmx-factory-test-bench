@@ -7,6 +7,8 @@ option(ENABLE_LTO "enable lto" OFF)
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_STANDARD 20)
 
+add_compile_options(-Wall -Wextra -Wpedantic)
+
 if (NOT SEPARATE_LIB)
   add_executable(fave-things
     fave_things.cpp

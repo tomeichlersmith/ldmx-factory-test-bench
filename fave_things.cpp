@@ -7,6 +7,8 @@ int main(int argc, char* argv[]) {
     std::cout << argv[0] << " libpath libentry" << std::endl;
     return 0;
   }
+  std::cout << "From executable: ";
+  LibraryEntry::Factory::get();
 #ifdef SEPARATE_LIB
   std::cout << "manually loading library" << std::endl;
   if (dlopen(argv[1], RTLD_NOW) == nullptr) {

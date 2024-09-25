@@ -2,23 +2,16 @@
 default:
     just --list
 
+# current build options
+@list:
+    [ -d build ] && ls build/
+
+# configure and build a specific option
 build NAME *CONFIG:
     denv cmake -B build/{{ NAME }} -S . {{ CONFIG }}
     denv cmake --build build/{{ NAME }}
 
-
-# build without LTO
-build-no-lto: (build "no-lto")
-
-# build with LTO
-build-lto: (build "lto" "-DENABLE_LTO=ON" "-DCMAKE_CXX_COMPILER=clang++" "-DCMAKE_C_COMPILER=clang")
-
-run NAME ENTRY:
+# run a specific option
+run NAME ENTRY="Book": (build NAME)
     denv build/{{ NAME }}/fave-things build/{{ NAME }}/libLibrary.so {{ ENTRY }}
-
-# run without LTO
-run-lto ENTRY: build-lto (run "lto" ENTRY)
-
-# run with LTO
-run-no-lto ENTRY: build-no-lto (run "no-lto" ENTRY)
 

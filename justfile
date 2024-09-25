@@ -2,7 +2,6 @@
 default:
     just --list
 
-[private]
 build NAME *CONFIG:
     denv cmake -B build/{{ NAME }} -S . {{ CONFIG }}
     denv cmake --build build/{{ NAME }}
@@ -14,7 +13,6 @@ build-no-lto: (build "no-lto")
 # build with LTO
 build-lto: (build "lto" "-DENABLE_LTO=ON" "-DCMAKE_CXX_COMPILER=clang++" "-DCMAKE_C_COMPILER=clang")
 
-[private]
 run NAME ENTRY:
     denv build/{{ NAME }}/fave-things build/{{ NAME }}/libLibrary.so {{ ENTRY }}
 

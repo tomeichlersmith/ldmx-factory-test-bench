@@ -203,6 +203,10 @@ class Factory {
   using PrototypeMaker = PrototypePtr (*)(PrototypeConstructorArgs...);
 
  public:
+  static Factory& get() {
+    static Factory the_factory;
+    return the_factory;
+  }
   /**
    * register a new object to be constructible
    *

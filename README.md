@@ -184,6 +184,7 @@ the variables that need to be not separated.
 
 <details>
 <summary>Build and Run Output</summary>
+
 ```
 tom@appa:~/code/ldmx/1465-lto$ just build 3-sep-make-with-export-and-lto -DENABLE_SYMB_EXPORTS=ON -DENABLE_LTO=ON                                                                           
 denv cmake -B build/3-sep-make-with-export-and-lto -S . -DENABLE_SYMB_EXPORTS=ON -DENABLE_LTO=ON
@@ -226,4 +227,5 @@ Factory(0x5605ba4e8060): make Book
 Poverty, By America
 ~Factory(0x5605ba4e8060)
 ```
+
 </details>

@@ -15,3 +15,7 @@ class LibraryEntry {
   namespace { \
     auto v = ::LibraryEntry::Factory::get().declare<CLASS>(); \
   }
+
+extern "C" {
+void run(std::string full_cpp_name);
+}

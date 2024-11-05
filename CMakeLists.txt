@@ -13,6 +13,7 @@ add_compile_options(-Wall -Wextra -Wpedantic)
 if (NOT SEPARATE_LIB)
   add_executable(fave-things
     fave_things.cpp
+    run.cpp
     Book.cpp
     Album.cpp
     Podcast.cpp
@@ -21,7 +22,7 @@ if (NOT SEPARATE_LIB)
     set_property(TARGET fave-things PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
   endif()
 else()
-  add_library(Library SHARED Book.cpp Album.cpp Podcast.cpp)
+  add_library(Library SHARED Book.cpp Album.cpp Podcast.cpp run.cpp)
   set_property(TARGET Library PROPERTY ENABLE_EXPORTS TRUE)
   add_executable(fave-things fave_things.cpp)
   target_compile_definitions(fave-things PRIVATE SEPARATE_LIB)

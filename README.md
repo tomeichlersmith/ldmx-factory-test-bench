@@ -12,11 +12,18 @@ _and_ built into the executable, there end up being **two** Factory instances
 one that registers/declares things within the library and the other trying
 to create things within the executable.
 The solution is to enforce "exporting" of these symbols.
-This is done with the `-rdynamic` linker flag or the `ENABLE_EXPORTS` property
-within CMake applied to wherever the Factory is being used.
+This is done with the
+[`-rdynamic`](https://gcc.gnu.org/onlinedocs/gcc/Link-Options.html#index-rdynamic)
+linker flag or the `ENABLE_EXPORTS` property within CMake applied to the executable
+that loads the libraries.
 ```cmake
 set_property(TARGET <tgt> PROPERTY ENABLE_EXPORTS TRUE)
 ```
+As pointed out [on StackOverflow](https://stackoverflow.com/a/60768340),
+this is necessary in order to enable a function loaded from a library to
+call a function defined within the executable (i.e. a callback) which is
+almost exactly what we want in this situation.
+
 
 ### As Designed
 I orginally designed the `Factory` where the `declare` and `make` calls

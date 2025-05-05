@@ -28,7 +28,7 @@ int main(int argc, char* argv[]) {
   }
   // cast void* handle to function type it should be
   run_type run;
-  *(int**)(&run) = run_func_handle;
+  *(void**)(&run) = run_func_handle;
   std::cout << "done loading library" << std::endl;
   return run(full_cpp_name);
 #else

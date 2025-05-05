@@ -1,0 +1,4 @@
+original-recipe -DSEPARATE_LIB=OFF
+separate-lib -DSEPARATE_LIB=ON
+sep-lib-with-lto -DSEPARATE_LIB=ON -DENABLE_LTO=ON
+sep-lib-with-sym-exp -DSEPARATE_LIB=ON -DENABLE_SYMB_EXPORT=ON -DENABLE_LTO=ON

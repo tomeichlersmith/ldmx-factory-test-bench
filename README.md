@@ -1,9 +1,14 @@
 # C++ Factory Testing Ground
 
 ```
-just build-<name>
-just run <name>
+just multi-test summary
 ```
+
+Needs
+- `just`
+- GNU `parallel`
+- `denv`
+- container runner supported by `denv`
 
 # :warning: `ENABLE_EXPORTS` was not the fix :warning:
 

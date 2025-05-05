@@ -1,4 +1,3 @@
-original-recipe -DSEPARATE_LIB=OFF
-separate-lib -DSEPARATE_LIB=ON
-sep-lib-with-lto -DSEPARATE_LIB=ON -DENABLE_LTO=ON
-sep-lib-with-sym-exp -DSEPARATE_LIB=ON -DENABLE_SYMB_EXPORT=ON -DENABLE_LTO=ON
+basic-release -DCMAKE_BUILD_TYPE=Release
+lto-release -DENABLE_LTO=ON -DCMAKE_BUILD_TYPE=Release
+sym-exp-lto -DENABLE_SYMB_EXPORT=ON -DENABLE_LTO=ON

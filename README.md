@@ -1,9 +1,19 @@
 # C++ Factory Testing Ground
 
 ```
-just build <name> <cmake-config>
+just build-<name>
 just run <name>
 ```
+
+# :warning: `ENABLE_EXPORTS` was not the fix :warning:
+
+Upon further investigation, using `ENABLE_EXPORTS` did not fix the issue within ldmx-sw.
+Moreover, using the newer OS and its newer GCC and Clang compilers (ldmx/dev:5.0.0), I am unable to replicate
+the double-construction observed with the v4 ldmx/dev images.
+
+I've kept my notes from before below for now, but I'll probably delete them as I think of more.
+
+---
 
 ## This was a doozy
 The key annoynace is how `static` variables are (by default) library-local.

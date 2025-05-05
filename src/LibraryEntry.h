@@ -17,5 +17,5 @@ class LibraryEntry {
   }
 
 extern "C" {
-void run(std::string full_cpp_name);
+int run(std::string full_cpp_name);
 }

@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 
-int run(std::string full_cpp_name) {
+int read(std::string full_cpp_name) {
   try {
     auto entry_ptr{LibraryEntry::Factory::get().make(full_cpp_name)};
     std::cout << entry_ptr->name() << std::endl;

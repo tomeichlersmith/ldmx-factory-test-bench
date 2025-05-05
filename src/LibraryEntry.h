@@ -16,6 +16,3 @@ class LibraryEntry {
     auto v = ::LibraryEntry::Factory::get().declare<CLASS>(); \
   }
 
-extern "C" {
-int run(std::string full_cpp_name);
-}

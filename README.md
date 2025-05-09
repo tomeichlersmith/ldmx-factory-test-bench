@@ -10,6 +10,18 @@ Needs
 - `denv`
 - container runner supported by `denv`
 
+# :tada: Unique `static` Variables :tada:
+Moving the _definition_ of the singleton factory instance to the implementation file
+for the prototype class seems to have resolved the issues being observed within ldmx-sw.
+This makes sense to me. Before, when the `static Factory` was in the `Factory.h` header,
+it could be defined in multiple source files leading to a complicated set of duplicates
+that the linker had to resolve. In some cases (e.g. GCC in the ldmx/dev image), the linker
+was able to resolve them properly while it was unable to do so in other cases.
+The solution to this duplication issue is to ensure that `static Factory` is only written down
+once per factory, which we can accomplish by only writing `static Factory` in the implementation file
+for the prototype class. I've wrapped the definition and declaration for a type-specific factory
+in some macros to make there be a bit less boilerplate for users to write.
+
 # :warning: `ENABLE_EXPORTS` was not the fix :warning:
 
 Upon further investigation, using `ENABLE_EXPORTS` did not fix the issue within ldmx-sw.

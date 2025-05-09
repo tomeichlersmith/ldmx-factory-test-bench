@@ -1,13 +1,13 @@
-#ifndef SIMCORE_FACTORY_H
-#define SIMCORE_FACTORY_H
+#pragma once
 
-#include <vector>
-#include <iostream>
 #include <algorithm>                // for for_each call in apply
 #include <boost/core/demangle.hpp>  // for demangling
 #include <memory>                   // for the unique_ptr default
 #include <string>                   // for the keys in the library map
 #include <unordered_map>            // for the library of prototypes
+#include <vector>                   // for warehouse of built objects
+#include <iostream>
+#define EXCEPTION_RAISE(CAT, MSG) throw std::runtime_error(MSG);
 
 /**
  * Factory to dynamically create objects derived from a specific prototype
@@ -193,6 +193,12 @@
 template <typename Prototype, typename PrototypePtr,
           typename... PrototypeConstructorArgs>
 class Factory {
+  std::ostream& emit() {
+    std::cout << "Factory<"
+      << boost::core::demangle(typeid(Prototype).name()) << ">("
+      << this << ", " << n_factories_ << ")";
+    return std::cout;
+  }
  public:
   /**
    * the signature of a function that can be used by this factory
@@ -203,10 +209,6 @@ class Factory {
   using PrototypeMaker = PrototypePtr (*)(PrototypeConstructorArgs...);
 
  public:
-  static Factory& get() {
-    static Factory the_factory;
-    return the_factory;
-  }
   /**
    * register a new object to be constructible
    *
@@ -228,9 +230,8 @@ class Factory {
   template <typename DerivedType>
   uint64_t declare() {
     std::string full_name{boost::core::demangle(typeid(DerivedType).name())};
+    emit() << "::declare<" << full_name << ">();" << std::endl;
     library_[full_name] = &maker<DerivedType>;
-    std::cout << "Factory(" << std::hex << this << "): "
-      "declare " << full_name << std::endl;
     return reinterpret_cast<std::uintptr_t>(&library_);
   }
 
@@ -254,13 +255,12 @@ class Factory {
    */
   PrototypePtr make(const std::string& full_name,
                     PrototypeConstructorArgs... maker_args) {
-    std::cout << "Factory(" << std::hex << this << "): "
-      "make " << full_name << std::endl;
     auto lib_it{library_.find(full_name)};
     if (lib_it == library_.end()) {
-      throw std::runtime_error("An object named " + full_name +
-                               " has not been declared.");
+      EXCEPTION_RAISE("SimFactory", "An object named " + full_name +
+                                        " has not been declared.");
     }
+    emit() << "::make(" << full_name << ");" << std::endl;
     warehouse_.emplace_back(lib_it->second(maker_args...));
     return warehouse_.back();
   }
@@ -282,17 +282,17 @@ class Factory {
   /// delete the assignment operator
   void operator=(Factory const&) = delete;
 
-  ~Factory() {
-    std::cout << "~Factory(" << std::hex << this << ")" << std::endl;
-  }
-
-  /// private constructor to prevent creation
   Factory() {
-    std::cout << "Factory(" << std::hex << this << ")" << std::endl;
+    n_factories_++;
+    emit() << "::constructor" << std::endl;
   }
 
+  ~Factory() {
+    emit() << "::destructor" << std::endl;
+  }
 
  private:
+  static int n_factories_;
   /**
    * make a new DerivedType returning a PrototypePtr
    *
@@ -325,4 +325,31 @@ class Factory {
   std::vector<PrototypePtr> warehouse_;
 };  // Factory
 
-#endif  // SIMCORE_FACTORY_H
+template<typename T, typename P, typename... Args>
+int Factory<T, P, Args...>::n_factories_ = 0;
+
+/**
+ * This macro is used in the `public` portion of your prototype class declaration.
+ *
+ * ```cpp
+ * public:
+ *  DeclareFactory(MyProto, std::shared_ptr<MyProto>);
+ * ```
+ */
+#define DeclareFactory(...) \
+  struct Factory : public ::Factory<__VA_ARGS__> { \
+    static Factory& get(); \
+  }
+
+/**
+ * This should go into an implementaiton file for your prototype class.
+ *
+ * ```cpp
+ * DefineFactory(MyProto);
+ * ```
+ */
+#define DefineFactory(classtype) \
+  classtype::Factory& classtype::Factory::get() { \
+    static classtype::Factory the_factory; \
+    return the_factory; \
+  }

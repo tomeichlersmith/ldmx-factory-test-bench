@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_compile_options(-Wall -Wextra -Wpedantic)
 add_library(Library SHARED Book.cpp)
-add_library(read SHARED read.cpp)
+add_library(read SHARED read.cpp LibraryEntry.cxx)
 target_link_libraries(read PUBLIC Library)
 add_executable(fave-things fave_things.cpp)
 target_link_libraries(fave-things PRIVATE read)

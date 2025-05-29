@@ -4,12 +4,12 @@
 #include <string>
 
 int read(std::string full_cpp_name) {
-  try {
-    auto entry_ptr{LibraryEntry::Factory::get().make(full_cpp_name)};
-    std::cout << entry_ptr->name() << std::endl;
+  auto entry_ptr{LibraryEntry::Factory::get().make(full_cpp_name)};
+  if (entry_ptr) {
+    std::cout << entry_ptr.value()->name() << std::endl;
     return 0;
-  } catch (const std::exception& e) {
-    std::cerr << "ERROR: " << e.what() << std::endl;
+  } else {
+    std::cerr << "Unable to create " << full_cpp_name << std::endl;
     return 1;
   }
 }

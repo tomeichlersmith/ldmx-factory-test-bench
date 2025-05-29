@@ -7,4 +7,4 @@ class Book : public LibraryEntry {
   }
 };
 
-DECLARE_LIBRARYENTRY(Book);
+FACTORY_REGISTRATION(LibraryEntry, Book);

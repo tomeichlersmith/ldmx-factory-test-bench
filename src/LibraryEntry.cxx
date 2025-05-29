@@ -4,4 +4,4 @@ std::string LibraryEntry::library_name() {
   return "MyLibrary";
 }
 
-DefineFactory(LibraryEntry);
+DEFINE_FACTORY(LibraryEntry);

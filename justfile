@@ -16,7 +16,7 @@ test COMPILER NAME *CONFIG:
     denv ${dest}/fave-things ${dest}/libLibrary.so Book
     echo "$?" > "${dest}/result"
 
-#[private]
+# run test while logging output to file
 log-test COMPILER NAME *CONFIG:
     #!/bin/bash
     mkdir -p build/{{ NAME }}/{{ COMPILER }}

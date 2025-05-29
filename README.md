@@ -1,3 +1,15 @@
+# Dynamic C++ Factory
+
+This [Factory](src/Factory.h) can be used with a "prototype" class
+to dynamically register new derived classes at library-load time and then
+create them by name.
+
+This repository is a testing ground for the design of this factory template
+class. [ldmx-sw](https://github.com/LDMX-Software/ldmx-sw) is the main
+repository where this factory get its use.
+
+---
+
 # C++ Factory Testing Ground
 
 ```
